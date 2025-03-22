@@ -6,25 +6,9 @@
     "action": {
       "default_popup": "index.html"
     },
-<<<<<<< HEAD
     "host_permissions": [
       "http://*/*",
       "https://*/*"
     ],
     "permissions": ["activeTab", "tabs", "scripting"]
-=======
-    "permissions": [
-      "activeTab"
-    ],
-    "content_scripts": [
-      {
-        "matches": [
-          "<all_urls>"
-        ],
-        "js": [
-          "content.js"
-        ]
-      }
-    ]
->>>>>>> fb3f5ce4a6f42e415e7f3e7fa641c2394dcf7a84
 }

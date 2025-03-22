@@ -3,7 +3,11 @@ export function testInject() {
 }
 
 export function injectReddit() {
-    document.body.classList.add("hidden");
+    const paragraphs = document.querySelectorAll('p');
+
+    paragraphs.forEach((p) => {
+        p.style.backgroundColor = 'yellow';
+    });
 }
 
 export function injectTwitter() {
