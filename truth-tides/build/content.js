@@ -1,32 +1,3 @@
-// const paragraphs = document.querySelectorAll('p');
-
-// paragraphs.forEach((p) => {
-//     // p.style.backgroundColor = 'yellow';
-//     p.className = 'bias-paragraph';
-//     p.addEventListener('mouseenter', (e) => showPopover(e.target));
-//     p.addEventListener('mouseleave', hidePopover);
-// });
-
-// function showPopover(target) {
-//     console.log('showPopover');
-//     hidePopover();
-//     const popover = document.createElement('div');
-//     popover.className = 'bias-popover';
-//     popover.innerText = '🚨 Strong bias detected, opinion rejected';
-//     document.body.appendChild(popover);
-//     const rect = target.getBoundingClientRect();
-//     popover.style.top = `${window.scrollY + rect.top + 10}px`;
-//     popover.style.right = `${window.scrollX + rect.right + 10}px`;
-// }
-
-// function hidePopover() {
-//     console.log('hidePopover');
-//     const popover = document.querySelector('.bias-popover');
-//     if (popover) {
-//         popover.remove();
-//     }
-// }
-
 // Function to attach event listeners to paragraphs
 function attachEventListeners(paragraphs) {
     paragraphs.forEach((p) => {
