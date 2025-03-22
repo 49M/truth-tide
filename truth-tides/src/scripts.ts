@@ -13,3 +13,11 @@ export function injectReddit() {
 export function injectTwitter() {
     document.body.style.backgroundColor = "blue";
 }
+
+export function uninjectReddit() {
+    const paragraphs = document.querySelectorAll('p');
+
+    paragraphs.forEach((p) => {
+        p.style.backgroundColor = 'transparent';
+    });
+}
