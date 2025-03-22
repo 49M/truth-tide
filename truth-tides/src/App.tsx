@@ -41,7 +41,6 @@ function App() {
     } else {
       console.log("fail");
     }
-
   }
 
   const onSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
