@@ -2,7 +2,8 @@
 function attachEventListeners(paragraphs) {
     paragraphs.forEach((p) => {
         if (!p.classList.contains('bias-paragraph')) {
-            p.classList.add('bias-paragraph');
+            // p.classList.add('bias-paragraph');
+            p.style.backgroundColor = 'yellow';
             p.addEventListener('mouseenter', (e) => showPopover(e.target));
             p.addEventListener('mouseleave', hidePopover);
         }

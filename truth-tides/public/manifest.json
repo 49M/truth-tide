@@ -8,8 +8,8 @@
       "https://*/*"
     ],
     "permissions": ["activeTab", "tabs", "scripting", "sidePanel", "webNavigation"],
-    "side_panel": {
-      "default_path": "index.html"
+    "action": {
+      "default_popup": "index.html"
     },
     "content_scripts": [
       {
