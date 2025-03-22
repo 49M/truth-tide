@@ -7,17 +7,26 @@ export function injectReddit() {
 
     paragraphs.forEach((p) => {
         p.style.backgroundColor = 'yellow';
+        p.style.cursor = "pointer";
     });
 }
 
-
-
 export function injectTwitter() {
+    localStorage.setItem("fakeness", JSON.stringify({}));
+    // let uniqueIdCounter = 0;
+
+    // function generateUniqueId(): string {
+    //     uniqueIdCounter++;
+    //     return `${uniqueIdCounter}`;
+    // }
+
     function replaceAction(p: Element) {
         // where we will decide if we flag text or not
         if (!p.classList.contains("tides-modified")) {
             p.classList.add("tides-modified");
-            return p.innerHTML + "asfd";
+            (p as HTMLElement).style.cursor = "pointer";
+            (p as HTMLElement).style.backgroundColor = "yellow";
+            return p.innerHTML
         }
         return p.innerHTML;
     }
