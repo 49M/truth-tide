@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react';
 import './App.css'
+import { injectReddit, injectTwitter } from './scripts';
+import { isReddit, isTwitter } from "./helpers"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [id, setId] = useState<number | undefined>(undefined)
+  const [url, setUrl] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    async function getUrl() {
+      const queryOptions = { active: true, currentWindow: true };
+      // `tab` will either be a `tabs.Tab` instance or `undefined`.
+      const [tab] = await chrome.tabs.query(queryOptions);
+      setId(tab.id)
+      setUrl(tab.url)
+    }
+    getUrl()
+  })
+
+  const onClick = () => {
+    if (id && url) {
+
+      if (isReddit(url)) {
+        console.log("injecting reddit");
+        chrome.scripting.executeScript({
+          target: { tabId: id },
+          func: injectReddit
+        });
+      } else if (isTwitter(url)) {
+        console.log("injecting twitter");
+        chrome.scripting.executeScript({
+          target: { tabId: id },
+          func: injectTwitter
+        });
+      }
+
+    } else {
+      console.log("fail");
+    }
+
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="h-screen w-screen flex flex-col gap-y-2 items-center justify-center py-20">
+      <div className='rounded-md hover:cursor-pointer w-20 h-20 bg-blue-300 text-black flex items-center justify-center' onClick={onClick}>inject</div>
+      <div>tab id: {id || "no id"}</div>
+      <div>url: {url || "no url"}</div>
+    </div>
   )
 }
 
