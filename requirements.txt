@@ -1,5 +1,9 @@
-cohere==5.5.3
 langchain 
 langchain_cohere 
 langchain_experimental
+dotenv
+faiss-cpu 
+tiktoken
+bs4
+tavily-python
 
