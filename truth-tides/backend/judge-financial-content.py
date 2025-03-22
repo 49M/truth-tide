@@ -23,13 +23,15 @@ def fact_check():
             message=f"""
             Fact Check this claim  "{text}". Output the answer in json format with True/False/Misleading/Unknown\n
             Reason: {{reason}}\n
+            Confidence : {{confidence}}
             Sources: {{sources}}\n. Make sure sources reference web pages that clarify the claim.
 
             {{ "FactCheckResult": {{
             "Verdict": {{True/False/Misleading/Unknown}},
             "Reason": {{reasoning}},
             "Sources": {{ "Source1": {{sourcelink}}, ...}},
-            "Additional Notes": {{notes}}
+            "Additional Notes": {{notes}},
+            "Confidence Percentage:" {{confidencePercentage}}
             }} }}
             """,
             connectors=[{"id": "web-search"}]
