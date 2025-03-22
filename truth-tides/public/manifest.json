@@ -2,9 +2,21 @@
     "manifest_version": 3,
     "name": "Truth-Tides",
     "version": "1.0.0",
-    "description": "Preventing bias influence one tide at a time",
+    "description": "Mitigating financial bias one tide at a time",
     "action": {
       "default_popup": "index.html"
     },
-    "permissions": []
+    "permissions": [
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "js": [
+          "content.js"
+        ]
+      }
+    ]
 }
