@@ -73,7 +73,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center font-poppins">
+    <div className="h-screen w-screen flex items-center justify-center font-inter">
       <div className="rounded-xl border-2 border-gray-300 p-8 flex flex-col gap-y-2 items-center">
         <div className="text-2xl font-bold text-blue-600">Truth Tides</div>
         <div className="text-xl font-bold text-center">
