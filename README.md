@@ -14,21 +14,21 @@ Prerequisites
 Installation
 	1.	Clone the Repository
 
-'''
+'''bash
 git clone <repository_url>
-
+'''
 	2.	Install Dependencies
 Open the project in your code editor and run:
 
-'''
+'''bash
 npm install
-
+'''
 	3.	Build the Extension
 In your terminal, execute:
 
-'''
+'''bash
 npm run build
-
+'''
 Setup
 	1.	Open your Chromium-based browser (Google Chrome is recommended).
 	2.	Navigate to the Extensions page.
