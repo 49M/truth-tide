@@ -115,7 +115,7 @@ def classify_financial_content():
             judge_response = fact_check(text)
             return judge_response
         else:
-            return "not financial"
+            return {"not financial": 1}
 
     except json.JSONDecodeError as e:
         return {"error": f"Invalid JSON response from Cohere: {str(e)}"}

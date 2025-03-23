@@ -1,18 +1,29 @@
 
 
 export async function injectReddit() {
+    localStorage.setItem("pageFacts", JSON.stringify({}));
+    type ResponseData = {
+        "Verdict": "True" | "False" | "Misleading" | "Unknown",
+        "Reason": string,
+        "Sources": {
+            "Source1": string,
+            "Source2": string,
+        },
+        "Additional Notes": string,
+        "Confidence Percentage": number
+    }
     const API_URL = 'http://127.0.0.1:5000/determine-financial';
 
     interface RequestData {
         text: string;
     }
 
-    // let uniqueIdCounter = 0;
+    let uniqueIdCounter = 0;
 
-    // function generateUniqueId(): string {
-    //     uniqueIdCounter++;
-    //     return `${uniqueIdCounter}`;
-    // }
+    function generateUniqueId(): string {
+        uniqueIdCounter++;
+        return `${uniqueIdCounter}`;
+    }
 
     async function replaceAction(p: Element) {
         // where we will decide if we flag text or not
@@ -28,11 +39,14 @@ export async function injectReddit() {
                     },
                     body: JSON.stringify(data)
                 });
-                const resdata = await response.json();
-                console.log("response data: ", resdata);
-                // const firstResult = (await response.json()).results[0];
-                // const judgedContent = firstResult[p.textContent || '']?.judged_content;
-                // console.log(judgedContent);
+                const resdata: ResponseData = (await response.json()).FactCheckResult;
+
+                const existingData = JSON.parse(localStorage.getItem("pageFacts") || "{}");
+                const id = generateUniqueId()
+                existingData[id] = resdata
+                p.classList.add(`tide-id-${id}`)
+                localStorage.setItem("pageFacts", JSON.stringify(existingData))
+            
     
                 p.classList.add("tides-modified");
                 (p as HTMLElement).style.cursor = "pointer";

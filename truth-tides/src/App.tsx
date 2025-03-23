@@ -32,19 +32,21 @@ function App() {
           target: { tabId: id },
           func: uninjectReddit,
         });
-      } else if (isTwitter(url)) {
-        console.log("uninjecting twitter");
-        chrome.scripting.executeScript({
-          target: { tabId: id },
-          func: uninjectTwitter,
-        });
       }
+      //  else if (isTwitter(url)) {
+      //   console.log("uninjecting twitter");
+      //   chrome.scripting.executeScript({
+      //     target: { tabId: id },
+      //     func: uninjectTwitter,
+      //   });
+      // }
     }
   };
 
   const handleTabUpdate = (
     tabId: number,
     changeInfo: chrome.tabs.TabChangeInfo,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _tab: chrome.tabs.Tab
   ) => {
     if (tabId === id && changeInfo.url) {
