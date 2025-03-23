@@ -72,7 +72,7 @@ def fact_check():
         response = co.chat(
             message=f"""
             Fact Check this claim: "{text}". Output the answer in JSON format with True/False/Misleading/Unknown. Make sure things are nice, concise and direct.
-            Provide structured output in the following format:
+            Provide structured output in the following format in the order I gave it:
 
             {{
               "FactCheckResult": {{
@@ -91,7 +91,7 @@ def fact_check():
         )
 
         response_json = re.sub(r"```json|```", "", response.text.strip())
-        fact_check_result = json.loads(response_json)
+        fact_check_result = json.loads(response_json)['FactCheckResult']
 
         return jsonify(fact_check_result)
 
