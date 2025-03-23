@@ -7,7 +7,17 @@ interface RequestData {
 }
 
 interface ApiResponse {
-    results: any[];
+    results: Record<string, {
+        judged_content: {
+            'Additional Notes': string;
+            'Confidence Percentage': string;
+            'Reason': string;
+            'Sources': {
+                [key: string]: string;
+            };
+            'Verdict': 'True' | 'Misleading';
+        };
+    }>[];
 }
 
 export function testInject() {
