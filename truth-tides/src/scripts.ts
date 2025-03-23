@@ -15,7 +15,7 @@ interface ApiResponse {
             'Sources': {
                 [key: string]: string;
             };
-            'Verdict': 'True' | 'Misleading';
+            'Verdict': 'True' | 'Misleading' | 'False' | 'Unknown';
         };
     }>[];
 }
