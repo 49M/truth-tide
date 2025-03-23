@@ -1,21 +1,17 @@
+import sys
 import cohere
 import os
 import json
 import re
-from flask_cors import CORS
 import requests
-from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-
-app = Flask(__name__)
-
-CORS(app)
 
 load_dotenv()
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 co = cohere.Client(COHERE_API_KEY)
 
 def fact_check(text):
+
     try:
         chat_response = co.chat(
             message=f"""
@@ -47,12 +43,7 @@ def fact_check(text):
     except Exception as e:
         return {"error": str(e)}
 
-
-@app.route('/determine-financial', methods=['POST'])
-def classify_financial_content():
-    data = request.get_json()
-    text = data.get("text")
-
+def classify_financial_content(text):
     try:
         chat_response = co.chat(
             message=f'''Analyze this text for financial relevance and be super stringent and make sure the text is explicitly about finance in one word:\n\n{text}\n\nConsider these indicators:\n- Financial instruments/markets\n- Economic indicators\n- Corporate earnings\n- Investments/asset management/crypto\n- Banking/insurance terms\n\nOutput JSON format:\n{{\n  "is_financial": boolean,\n}}''',
@@ -64,9 +55,9 @@ def classify_financial_content():
 
         if (is_financial):
             judge_response = fact_check(text)
-            return jsonify(judge_response)
+            return judge_response
         else:
-            return jsonify({"res": "not financial"})
+            return "not financial"
 
     except json.JSONDecodeError as e:
         return {"error": f"Invalid JSON response from Cohere: {str(e)}"}
@@ -77,6 +68,7 @@ def classify_financial_content():
 
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    print("Enter query")
+    input = input()
+    print(classify_financial_content(input))
