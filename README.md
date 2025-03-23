@@ -37,8 +37,9 @@ npm run build
 1. Open your Chromium-based browser (Google Chrome is recommended).
 2. Navigate to the Extensions page.
 3. Enable Developer Mode (usually found in the top right corner).
-4. Click on "Load unpacked".
-5. Select the `build` folder inside the cloned repository.
+4. Run the flaskapp.py app in the backend folder.
+5. Click on "Load unpacked".
+6. Select the `build` folder inside the cloned repository.
 
 The extension should now appear as "Truth-Tide 1.0.0" in your list.
 
