@@ -11,7 +11,6 @@ function App() {
 
   const inject = () => {
     if (checked && url && id) {
-      console.log("doing stuff");
       if (isReddit(url)) {
         chrome.scripting.executeScript({
           target: { tabId: id },
@@ -58,7 +57,6 @@ function App() {
   useEffect(() => {
     async function getUrl() {
       const queryOptions = { active: true, currentWindow: true };
-      // `tab` will either be a `tabs.Tab` instance or `undefined`.
       const [tab] = await chrome.tabs.query(queryOptions);
       setId(tab.id);
       setUrl(tab.url);

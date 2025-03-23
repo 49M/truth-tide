@@ -1,17 +1,3 @@
-/* .bias-popover {
-    position: absolute;
-    background: white;
-    color: black;
-    padding: 8px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    z-index: 9999;
-} */
-
-/* .bias-paragraph {
-    background-color: yellow;
-} */
-
 .bias-popover {
     position: absolute;
     background: white;
@@ -20,13 +6,12 @@
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     z-index: 9999;
-    pointer-events: none; /* Prevent popover from interfering with mouse events */
+    pointer-events: none;
     font-size: 14px;
     max-width: 200px;
     text-align: center;
   }
   
-  /* Optional: Add a subtle effect for the bias paragraph on hover */
   .bias-paragraph:hover {
     cursor: help;
   }
