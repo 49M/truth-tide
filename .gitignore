@@ -26,3 +26,4 @@ dist-ssr
 *venv*
 *cpython*
 *build*
+/truth-tides/build
