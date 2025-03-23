@@ -20,10 +20,6 @@
 //     }>[];
 // }
 
-export function testInject() {
-  document.body.style.backgroundColor = "orange";
-}
-
 export function injectReddit() {
     // let uniqueIdCounter = 0;
 
@@ -125,5 +121,15 @@ export function uninjectReddit() {
 
     paragraphs.forEach((p) => {
         p.style.backgroundColor = 'transparent';
+        p.classList.remove("tides-modified")
+    });
+}
+
+export function uninjectTwitter() {
+    const paragraphs = document.querySelectorAll('div[lang], p[lang]');
+
+    paragraphs.forEach((p) => {
+        (p as HTMLElement).style.backgroundColor = 'transparent';
+        p.classList.remove("tides-modified")
     });
 }

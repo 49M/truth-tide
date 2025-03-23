@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { injectReddit, injectTwitter } from "./scripts";
+import { injectReddit, injectTwitter, uninjectReddit, uninjectTwitter } from "./scripts";
 import { isReddit, isTwitter } from "./helpers";
 import { FormControlLabel, Switch } from "@mui/material";
 
@@ -22,6 +22,20 @@ function App() {
         chrome.scripting.executeScript({
           target: { tabId: id },
           func: injectTwitter,
+        });
+      }
+    } else if (!checked && url && id) {
+      if (isReddit(url)) {
+        console.log("uninjecting reddit")
+        chrome.scripting.executeScript({
+          target: { tabId: id },
+          func: uninjectReddit
+        });
+      } else if (isTwitter(url)) {
+        console.log("uninjecting twitter")
+        chrome.scripting.executeScript({
+          target: { tabId: id },
+          func: uninjectTwitter,
         });
       }
     }
