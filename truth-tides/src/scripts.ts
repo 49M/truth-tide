@@ -47,10 +47,20 @@ export async function injectReddit() {
                 p.classList.add(`tide-id-${id}`)
                 localStorage.setItem("pageFacts", JSON.stringify(existingData))
             
-    
+                
                 p.classList.add("tides-modified");
                 (p as HTMLElement).style.cursor = "pointer";
-                (p as HTMLElement).style.backgroundColor = "yellow";
+                
+                if (resdata.Verdict == "True") {
+                    (p as HTMLElement).style.backgroundColor = "green";
+                } else if (resdata.Verdict == "False") {
+                    (p as HTMLElement).style.backgroundColor = "red";
+                } else if (resdata.Verdict == "Misleading") {
+                    (p as HTMLElement).style.backgroundColor = "yellow";
+                } else if (resdata.Verdict == "Unknown") {
+                    (p as HTMLElement).style.backgroundColor = "gray";
+                }
+
                 return p.innerHTML;
             } catch (e) {
                 console.log(e);
