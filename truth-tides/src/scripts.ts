@@ -24,25 +24,21 @@ export function injectReddit() {
             ]
         };
         async function makeRequest() {
-            try {
-                const response = await axios.post<ApiResponse>(
-                    API_URL,
-                    data,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
+            const response = await axios.post<ApiResponse>(
+                API_URL,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                );
-                return response.data;
-            } catch (error) {
-                throw error;
-            }
+                }
+            );
+            return response.data;
         }
-        makeRequest();
+        const result: Promise<ApiResponse> = makeRequest();
         p.style.backgroundColor = 'yellow';
         p.style.cursor = "pointer";
-    }
+    })
 }
 
 
