@@ -60,8 +60,6 @@ function scanForYellowElements() {
   });
 }
 
-scanForYellowElements();
-
 const observer = new MutationObserver(() => {
   setTimeout(scanForYellowElements, 100);
 });
@@ -72,5 +70,3 @@ observer.observe(document.body, {
   attributes: true,
   attributeFilter: ['style', 'class']
 });
-
-setInterval(scanForYellowElements, 2000);

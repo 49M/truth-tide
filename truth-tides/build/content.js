@@ -9,7 +9,6 @@ function hasYellowBackground(element) {
 
 function addEventListeners(element) {
   if (processedElements.has(element)) return;
-  
   element.addEventListener('mouseenter', handleMouseEnter);
   element.addEventListener('mouseleave', handleMouseLeave);
   processedElements.add(element);
@@ -26,8 +25,8 @@ function handleMouseLeave() {
 function showPopover(target) {
   hidePopover();
   const popover = document.createElement('div');
-  popover.id = 'bias-detector-popover';  // Use ID for easier selection
-  popover.textContent = '🚨 Strong bias detected, opinion rejected';
+  popover.id = 'bias-detector-popover';
+  popover.textContent = `🚨 ${message}`;
   popover.style.position = 'absolute';
   popover.style.background = 'white';
   popover.style.color = 'black';
@@ -61,8 +60,6 @@ function scanForYellowElements() {
   });
 }
 
-scanForYellowElements();
-
 const observer = new MutationObserver(() => {
   setTimeout(scanForYellowElements, 100);
 });
@@ -73,5 +70,3 @@ observer.observe(document.body, {
   attributes: true,
   attributeFilter: ['style', 'class']
 });
-
-setInterval(scanForYellowElements, 2000);
