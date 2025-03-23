@@ -24,7 +24,7 @@ def classify_financial_content():
     for text in texts:
         try:
             chat_response = co.chat(
-                message=f'''Analyze this text for financial relevance and be super stringent and make sure the text is explicitly about finance:\n\n{text}\n\nConsider these indicators:\n- Financial instruments/markets\n- Economic indicators\n- Corporate earnings\n- Investments/asset management/crypto\n- Banking/insurance terms\n\nOutput JSON format:\n{{\n  "is_financial": boolean,\n  "reason": string\n}}''',
+                message=f'''Analyze this text for financial relevance and be super stringent and make sure the text is explicitly about finance in one word:\n\n{text}\n\nConsider these indicators:\n- Financial instruments/markets\n- Economic indicators\n- Corporate earnings\n- Investments/asset management/crypto\n- Banking/insurance terms\n\nOutput JSON format:\n{{\n  "is_financial": boolean,\n}}''',
                 connectors=[{"id": "web-search"}]
             )
 
@@ -32,7 +32,6 @@ def classify_financial_content():
             analysis = json.loads(response_json)
             
             is_financial = analysis.get("is_financial", False)
-            reason = analysis.get("reason", "No reason provided")
 
             judged_content = None
 
@@ -72,7 +71,7 @@ def fact_check():
     try:
         response = co.chat(
             message=f"""
-            Fact Check this claim: "{text}". Output the answer in JSON format with True/False/Misleading/Unknown.
+            Fact Check this claim: "{text}". Output the answer in JSON format with True/False/Misleading/Unknown. Make sure things are nice, concise and direct.
             Provide structured output in the following format:
 
             {{
