@@ -73,14 +73,20 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col gap-y-2 items-center justify-center py-20 rounded-xl">
-      <div className="text-2xl font-bold">Truth Tides</div>
-      <FormControlLabel
-        control={<Switch checked={checked} onChange={onSwitchChange} />}
-        label="Check Bias"
-      />
-      <div>url: {url || "no url"}</div>
+    <div className="h-screen w-screen flex items-center justify-center">
+  {/* This is your single box */}
+  <div className="rounded-xl border-2 border-gray-300 p-8 flex flex-col gap-y-2 items-center">
+    <div className="text-2xl font-bold">Truth Tides</div>
+    <div className="text-l font-bold text-center">
+      Protect yourself from financial misinformation
     </div>
+    <FormControlLabel
+      control={<Switch checked={checked} onChange={onSwitchChange} />}
+      label="Check Bias"
+    />
+    <div className="max-w-[80%] break-all">url: {url || "no url"}</div>
+  </div>
+</div>
   );
 }
 
