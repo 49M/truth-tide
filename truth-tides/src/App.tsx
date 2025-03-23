@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { injectReddit, injectTwitter, uninjectReddit, uninjectTwitter } from "./scripts";
+import { injectReddit, injectTwitter, uninjectReddit } from "./scripts";
 import { isReddit, isTwitter } from "./helpers";
 import CustomToggle from "./components/ButtonToggle"; // Import the custom toggle
 
