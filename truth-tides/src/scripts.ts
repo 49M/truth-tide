@@ -1,26 +1,12 @@
-// import axios from 'axios';
 
-// const API_URL = 'http://127.0.0.1:5000/determine-financial';
 
-// interface RequestData {
-//     texts: string[];
-// }
+export async function injectReddit() {
+    const API_URL = 'http://127.0.0.1:5000/determine-financial';
 
-// interface ApiResponse {
-//     results: Record<string, {
-//         "judged_content": {
-//             'Additional Notes': string;
-//             'Confidence Percentage': string;
-//             'Reason': string;
-//             'Sources': {
-//                 [key: string]: string;
-//             };
-//             'Verdict': string;
-//         };
-//     }>[];
-// }
+    interface RequestData {
+        text: string;
+    }
 
-export function injectReddit() {
     // let uniqueIdCounter = 0;
 
     // function generateUniqueId(): string {
@@ -28,13 +14,33 @@ export function injectReddit() {
     //     return `${uniqueIdCounter}`;
     // }
 
-    function replaceAction(p: Element) {
+    async function replaceAction(p: Element) {
         // where we will decide if we flag text or not
-        if (!p.classList.contains("tides-modified")) {
-            p.classList.add("tides-modified");
-            (p as HTMLElement).style.cursor = "pointer";
-            (p as HTMLElement).style.backgroundColor = "yellow";
-            return p.innerHTML;
+        if (!p.classList.contains("tides-modified") && typeof p.innerHTML === 'string') {
+            try {
+                const data: RequestData = {
+                    text: p.textContent || "",
+                };
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const resdata = await response.json();
+                console.log("response data: ", resdata);
+                // const firstResult = (await response.json()).results[0];
+                // const judgedContent = firstResult[p.textContent || '']?.judged_content;
+                // console.log(judgedContent);
+    
+                p.classList.add("tides-modified");
+                (p as HTMLElement).style.cursor = "pointer";
+                (p as HTMLElement).style.backgroundColor = "yellow";
+                return p.innerHTML;
+            } catch (e) {
+                console.log(e);
+            }
         }
         return p.innerHTML;
     }
@@ -43,7 +49,7 @@ export function injectReddit() {
 
     for (let i = 0; i < paragraphs.length; i++) {
         const p = paragraphs[i];
-        p.innerHTML = replaceAction(p);
+        p.innerHTML = await replaceAction(p);
     }
 
     const targetNode = document.body;
@@ -51,13 +57,13 @@ export function injectReddit() {
     
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     const callback = (mutationsList: any, _observer: any) => {
-        mutationsList.forEach((mutation: MutationRecord) => {
+        mutationsList.forEach(async (mutation: MutationRecord) => {
             // Check if the mutation is an addition of a node and it's an element
             if (mutation.type === 'childList') {
                 const paragraphs = (mutation.target as Element).querySelectorAll('div[lang], p[lang]');
                 for (let j = 0; j < paragraphs.length; j++) {
                     const p = paragraphs[j];
-                    p.innerHTML = replaceAction(p);
+                    p.innerHTML = await replaceAction(p);
                 }
             }
         });
