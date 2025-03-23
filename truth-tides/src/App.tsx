@@ -2,23 +2,24 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { injectReddit, injectTwitter, uninjectReddit, uninjectTwitter } from "./scripts";
 import { isReddit, isTwitter } from "./helpers";
-import { FormControlLabel, Switch } from "@mui/material";
+import CustomToggle from "./components/ButtonToggle"; // Import the custom toggle
 
 function App() {
   const [id, setId] = useState<number | undefined>(undefined);
   const [url, setUrl] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string | undefined>(undefined);
   const [checked, setChecked] = useState(false);
 
   const inject = () => {
     if (checked && url && id) {
       if (isReddit(url)) {
-        console.log("injecting reddit")
+        console.log("injecting reddit");
         chrome.scripting.executeScript({
           target: { tabId: id },
           func: injectReddit,
         });
       } else if (isTwitter(url)) {
-        console.log("injecting twitter")
+        console.log("injecting twitter");
         chrome.scripting.executeScript({
           target: { tabId: id },
           func: injectTwitter,
@@ -26,25 +27,24 @@ function App() {
       }
     } else if (!checked && url && id) {
       if (isReddit(url)) {
-        console.log("uninjecting reddit")
+        console.log("uninjecting reddit");
         chrome.scripting.executeScript({
           target: { tabId: id },
-          func: uninjectReddit
+          func: uninjectReddit,
         });
       } else if (isTwitter(url)) {
-        console.log("uninjecting twitter")
+        console.log("uninjecting twitter");
         chrome.scripting.executeScript({
           target: { tabId: id },
           func: uninjectTwitter,
         });
       }
     }
-  }
+  };
 
   const handleTabUpdate = (
     tabId: number,
     changeInfo: chrome.tabs.TabChangeInfo,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _tab: chrome.tabs.Tab
   ) => {
     if (tabId === id && changeInfo.url) {
@@ -53,20 +53,19 @@ function App() {
   };
 
   chrome.tabs.onUpdated.addListener(handleTabUpdate);
-  chrome.webNavigation.onCompleted.addListener(inject)
+  chrome.webNavigation.onCompleted.addListener(inject);
 
   useEffect(() => {
-    async function getUrl() {
+    async function getTabInfo() {
       const queryOptions = { active: true, currentWindow: true };
       const [tab] = await chrome.tabs.query(queryOptions);
       setId(tab.id);
       setUrl(tab.url);
+      setTitle(tab.title);
     }
-    getUrl();
-
+    getTabInfo();
     inject();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, url, checked]);
 
   const onSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,20 +73,35 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center">
-  {/* This is your single box */}
-  <div className="rounded-xl border-2 border-gray-300 p-8 flex flex-col gap-y-2 items-center">
-    <div className="text-2xl font-bold">Truth Tides</div>
-    <div className="text-l font-bold text-center">
-      Protect yourself from financial misinformation
+    <div className="h-screen w-screen flex items-center justify-center font-poppins">
+      <div className="rounded-xl border-2 border-gray-300 p-8 flex flex-col gap-y-2 items-center">
+        <div className="text-2xl font-bold text-blue-600">Truth Tides</div>
+        <div className="text-xl font-bold text-center">
+          Protect yourself from financial misinformation
+        </div>
+        <div className="text-l font-bold text-center">
+          Do you want to know the truth?
+        </div>
+        <div className="my-4">
+          <CustomToggle checked={checked} onChange={onSwitchChange} />
+        </div>
+        <div className="max-w-[80%] break-all text-sm text-gray-600">
+          Webpage being analysed:{" "}
+          {url ? (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              {title || "Visit Page"}
+            </a>
+          ) : (
+            "no url"
+          )}
+        </div>
+      </div>
     </div>
-    <FormControlLabel
-      control={<Switch checked={checked} onChange={onSwitchChange} />}
-      label="Check Bias"
-    />
-    <div className="max-w-[80%] break-all">url: {url || "no url"}</div>
-  </div>
-</div>
   );
 }
 
