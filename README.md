@@ -1,5 +1,3 @@
-I'll rewrite this readme with proper code blocks:
-
 # Truth Tide
 
 Truth Tide is a financial analysis tool designed to help you detect bias in finance-related articles and posts on Reddit and Twitter. With this extension, you can quickly identify potentially misleading or biased content and understand the reasoning behind each flagged section.
