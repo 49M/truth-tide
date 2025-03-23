@@ -8,14 +8,14 @@ interface RequestData {
 
 interface ApiResponse {
     results: Record<string, {
-        judged_content: {
+        "judged_content": {
             'Additional Notes': string;
             'Confidence Percentage': string;
             'Reason': string;
             'Sources': {
                 [key: string]: string;
             };
-            'Verdict': 'True' | 'Misleading';
+            'Verdict': string;
         };
     }>[];
 }
@@ -27,28 +27,32 @@ export function testInject() {
 export function injectReddit() {
     const paragraphs = document.querySelectorAll('p');
 
-    paragraphs.forEach((p) => {
+    paragraphs.forEach(async (p) => {
         const data: RequestData = {
             texts: [
                 p.textContent || ''
             ]
         };
-        async function makeRequest() {
-            const response = await axios.post<ApiResponse>(
-                API_URL,
-                data,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+        const response = await axios.post<ApiResponse>(
+            API_URL,
+            data,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            );
-            return response.data;
-        }
-        const result: Promise<ApiResponse> = makeRequest();
-        p.style.backgroundColor = 'yellow';
-        p.style.cursor = "pointer";
-    })
+            }
+        );
+        const firstResult = response.data.results[0];
+        const judgedContent = firstResult[p.textContent || '']?.judged_content;
+        if (judgedContent) {
+            console.log(judgedContent.Verdict);
+            if (judgedContent.Verdict == 'True') {p.style.backgroundColor = 'lime';} 
+            else if (judgedContent.Verdict == 'Misleading') {p.style.backgroundColor = 'orange';} 
+            else if (judgedContent.Verdict == 'False') {p.style.backgroundColor = 'red';} 
+            else if (judgedContent.Verdict == 'Uknown') {p.style.backgroundColor = 'transparent';}
+            p.style.cursor = "pointer";
+        }    
+    });
 }
 
 
